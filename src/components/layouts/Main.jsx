@@ -7,7 +7,7 @@ import { fetchUser } from './../../api/starchat-backend';
 
 const Main = () => {
     const [username, setUserName] = useState("");
-    const [page, setPage] = useState("ChatRoom");
+    const [page, setPage] = useState("Chat Room");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -32,7 +32,7 @@ const Main = () => {
 
             <div className='content-container'>
                 {username !== "" ?
-                    page === "ChatRoom" ? <ChatRoom />
+                    page === "Chat Room" ? <ChatRoom />
                         : null
                     : <Login setUserName={setUserName} />
                 }

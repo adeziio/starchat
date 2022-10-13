@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Tooltip, MenuItem } from '@mui/material';
-import { MenuOutlined, Stars, AutoAwesome } from '@mui/icons-material';
+import { MenuOutlined, AutoAwesome, AccountCircle } from '@mui/icons-material';
 import { fetchLogout } from './../../api/starchat-backend';
 
 
@@ -8,9 +8,9 @@ const Header = (props) => {
     const [anchorElLeft, setAnchorElLeft] = useState(null);
     const [anchorElRight, setAnchorElRight] = useState(null);
     const { username, page } = props;
-    const leftOption = ['ChatRoom'];
+    const leftOption = ['Chat Room'];
     const rightOption = [];
-    const defaultPage = "ChatRoom";
+    const defaultPage = "Chat Room";
 
     if (username !== "") {
         rightOption.push("Log Out");
@@ -50,7 +50,7 @@ const Header = (props) => {
 
     return (
         <>
-            <AppBar position="fixed" sx={{ backgroundColor: "#005b96" }}>
+            <AppBar position="fixed" sx={{ backgroundColor: "#1976d2" }}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
                         <Typography
@@ -60,7 +60,7 @@ const Header = (props) => {
                             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
                             onClick={() => props.setPage(defaultPage)}
                         >
-                            <AutoAwesome />
+                            <AutoAwesome className='pointer' />
                         </Typography>
 
                         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -107,23 +107,32 @@ const Header = (props) => {
                             onClick={() => props.setPage(defaultPage)}
                         >
                             <AutoAwesome />
+                            <Typography sx={{ fontFamily: "cursive", fontSize: "3rem" }}>Star Chat</Typography>
+                            <AutoAwesome />
                         </Typography>
                         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                             {leftOption.map((option, index) => (
                                 <Button
                                     key={`f2-${option}-${index}`}
                                     onClick={() => { setPage(option) }}
-                                    sx={{ my: 2, color: page === option ? 'lime' : 'white', display: 'block' }}
+                                    sx={{ my: 2, color: page === option ? 'yellow' : 'white', display: 'block' }}
                                 >
                                     {option}
                                 </Button>
                             ))}
                         </Box>
-
+                        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, marginRight: "5rem" }}>
+                            <Typography onClick={() => props.setPage(defaultPage)} sx={{ m: 1, cursor: "pointer" }}>
+                                <AutoAwesome />
+                                <Typography sx={{ fontFamily: "cursive", fontSize: "3rem", display: "inline-block" }}> Star Chat </Typography>
+                                <AutoAwesome />
+                            </Typography>
+                        </Box>
                         <Box sx={{ flexGrow: 0 }} >
                             <Tooltip title="More">
-                                <Typography onClick={handleOpenRightMenu} sx={{ p: 0 }}>
-                                    <Stars className="pointer" fontSize="large" />
+                                <Typography onClick={handleOpenRightMenu} sx={{ m: 1 }}>
+                                    <AccountCircle className="pointer" fontSize="large" />
+                                    <Typography>{username}</Typography>
                                 </Typography>
                             </Tooltip>
                             <Menu
