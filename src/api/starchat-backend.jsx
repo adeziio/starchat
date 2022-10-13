@@ -54,7 +54,7 @@ export const fetchLogin = async (username, password) => {
     }
 }
 
-export const fetchLogout = async (username, password) => {
+export const fetchLogout = async () => {
     try {
         const res = await fetch(host + "/logout", {
             "method": "GET",
@@ -98,4 +98,50 @@ export const fetchUser = async () => {
     }
 }
 
+export const fetchViewAllRoom = async () => {
+    try {
+        const res = await fetch(host + "/api/viewAllRoom", {
+            "method": "GET",
+            "credentials": "include",
+            "headers": {
+                'Content-Type': 'application/json',
+                'x-csrf-token': Cookies.get("csrf_access_token")
+            }
+        })
+        if (res.status === 200) {
+            return await res.json();
+        }
+        else {
+            return false;
+        }
+    }
+    catch (err) {
+        return false;
+    }
+}
 
+
+export const fetchViewMessage = async (roomname) => {
+    try {
+        const res = await fetch(host + "/api/viewAllRoom", {
+            "method": "POST",
+            "credentials": "include",
+            "headers": {
+                'Content-Type': 'application/json',
+                'x-csrf-token': Cookies.get("csrf_access_token")
+            },
+            "body": JSON.stringify({
+                "roomname": roomname
+            })
+        })
+        if (res.status === 200) {
+            return await res.json();
+        }
+        else {
+            return false;
+        }
+    }
+    catch (err) {
+        return false;
+    }
+}
