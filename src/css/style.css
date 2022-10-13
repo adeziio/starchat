@@ -1,0 +1,19 @@
+.header-container {
+    margin-top: 2rem;
+}
+
+.content-container {
+    margin-top: 6rem;
+    background-color: white;
+    display: inline-block;
+    min-width: 41rem;
+    min-height: 35rem;
+}
+
+.footer-container {
+    margin: 1rem;
+}
+
+.bold {
+    font-weight: bold !important;
+}
