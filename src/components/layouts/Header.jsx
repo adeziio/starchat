@@ -21,7 +21,7 @@ const Header = (props) => {
 
     const setPage = async (page) => {
         if (page === "Log Out" || page === "Log In") {
-            props.setPage("ChatRoom");
+            props.setPage("Chat Room");
             props.setUserName("");
             await fetchLogout();
         }
