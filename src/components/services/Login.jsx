@@ -52,7 +52,7 @@ const Login = (props) => {
     return (
         <>
             <KawaiiAnimation />
-            <FormControl variant="standard" sx={{ marginTop: "2rem" }}>
+            <FormControl variant="standard">
                 <TextField sx={{ width: "20rem", marginTop: 1 }} label="Username" variant="outlined"
                     onChange={(e) => handleUserChange(e)}
                     onKeyDown={_handleKeyDown}
