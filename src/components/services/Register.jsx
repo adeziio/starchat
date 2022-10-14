@@ -62,7 +62,7 @@ const Register = () => {
             <Dialog onClose={toggleDialog} open={dialog}>
                 <DialogTitle sx={{ display: "inline-block", margin: "auto" }}><AutoAwesome /> Register <AutoAwesome /></DialogTitle>
                 <DialogContent>
-                    <FormControl variant="standard" sx={{ width: "25rem" }}>
+                    <FormControl variant="standard">
                         <TextField sx={{ width: "100%", marginTop: 1 }} label="Username" variant="outlined"
                             onChange={(e) => handleUserChange(e)}
                             onKeyDown={_handleKeyDown}
