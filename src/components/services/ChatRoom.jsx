@@ -119,6 +119,8 @@ const ChatRoom = () => {
                     </Button>
                 </Grid>
             </Grid>
+            {resStatus === "error" ? <Alert sx={{ marginTop: 1 }} severity={resStatus}>{resMessage}</Alert> : null}
+            {isLoading ? <CircularProgress sx={{ display: "block", marginTop: 1, margin: "auto", padding: "1rem" }} /> : null}
             <Pagination
                 rowsperpage={pageSize} count={Math.ceil(dataSize / pageSize)} size="large" color="primary"
                 sx={{ display: "inline-block", margin: "auto", marginTop: 5 }}
@@ -151,8 +153,7 @@ const ChatRoom = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Alert sx={{ marginTop: 1 }} severity={resStatus}>{resMessage}</Alert>
-            {isLoading ? <CircularProgress sx={{ marginTop: 1, margin: "auto", padding: "1rem" }} /> : null}
+
         </>
     )
 }
