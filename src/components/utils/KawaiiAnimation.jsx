@@ -15,8 +15,8 @@ const Container = styled.div`
   }
 
   svg {
-    width: 30%;
-    height: auto;
+    width: auto;
+    height: 10%;
   }
 `;
 
