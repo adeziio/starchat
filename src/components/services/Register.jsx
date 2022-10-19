@@ -39,21 +39,34 @@ const Register = () => {
         }
     }
 
+    const isValidEmail = (email) => {
+        if (email !== "" && email.includes("@")) {
+            return true;
+        }
+        return false;
+    }
+
     const register = async (username, password, email) => {
-        if (username !== "" && password !== "" && email !== "") {
-            setResStatus("");
-            setResMessage("");
-            setIsLoading(true);
-            const response = await fetchRegisterUser(username, password, email);
-            if (response) {
-                setResStatus(response.status);
-                setResMessage(response.message);
+        if (username !== "" && password !== "") {
+            if (isValidEmail(email)) {
+                setResStatus("");
+                setResMessage("");
+                setIsLoading(true);
+                const response = await fetchRegisterUser(username, password, email);
+                if (response) {
+                    setResStatus(response.status);
+                    setResMessage(response.message);
+                }
+                else {
+                    setResStatus("error");
+                    setResMessage("Service Unavailable");
+                }
+                setIsLoading(false);
             }
             else {
                 setResStatus("error");
-                setResMessage("Service Unavailable");
+                setResMessage("Please enter a valid email address");
             }
-            setIsLoading(false);
         }
     }
 
