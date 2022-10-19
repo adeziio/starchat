@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
-const host = process.env.REACT_APP_BACKEND_HOST;
+// const host = process.env.REACT_APP_BACKEND_HOST;
+const host = process.env.REACT_APP_ENV === "local" ? process.env.REACT_APP_BACKEND_HOST : "";
 
 export const fetchRegisterUser = async (username, password, email) => {
     try {
