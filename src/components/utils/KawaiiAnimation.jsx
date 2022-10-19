@@ -16,7 +16,7 @@ const Container = styled.div`
 
   svg {
     width: auto;
-    height: 10%;
+    height: 12rem;
   }
 `;
 
