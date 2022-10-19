@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { FormControl, Alert, Dialog, DialogTitle, DialogContent, Button, TextField, CircularProgress, Typography } from '@mui/material';
 import { AutoAwesome } from '@mui/icons-material';
-import { fetchRegisterUser } from '../../api/starchat-backend';
+import { fetchRegisterUser, fetchForgotUsernameAndPassword } from '../../api/starchat-backend';
 
 const Register = () => {
     const [dialog, setDialog] = useState(false);
+    const [isForgotUsernameAndPassword, setIsForgotUsernameAndPassword] = useState(false);
     const [username, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
@@ -12,13 +13,24 @@ const Register = () => {
     const [resMessage, setResMessage] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
-    const toggleDialog = () => {
-        setDialog(prevDialog => !prevDialog);
+    const openDialog = () => {
+        setDialog(true);
+    }
+
+    const closeDialog = () => {
+        setDialog(false);
+        setIsForgotUsernameAndPassword(false);
         setUserName("");
         setPassword("");
+        setEmail("");
         setResStatus("");
         setResMessage("");
         setIsLoading(false);
+    }
+
+    const handleForgotUsernameAndPassword = () => {
+        setIsForgotUsernameAndPassword(true);
+        openDialog();
     }
 
     const handleUserChange = (e) => {
@@ -70,38 +82,72 @@ const Register = () => {
         }
     }
 
+    const forgotUsernameAndPassword = async (email) => {
+        if (isValidEmail(email)) {
+            setResStatus("");
+            setResMessage("");
+            setIsLoading(true);
+            const response = await fetchForgotUsernameAndPassword(email);
+            if (response) {
+                setResStatus(response.status);
+                setResMessage(response.message);
+            }
+            else {
+                setResStatus("error");
+                setResMessage("Service Unavailable");
+            }
+            setIsLoading(false);
+        }
+        else {
+            setResStatus("error");
+            setResMessage("Please enter a valid email address");
+        }
+    }
+
     return (
         <>
-            <Dialog onClose={toggleDialog} open={dialog}>
-                <DialogTitle sx={{ display: "inline-block", margin: "auto" }}><AutoAwesome /> Register <AutoAwesome /></DialogTitle>
+            <Dialog onClose={closeDialog} open={dialog} fullWidth>
+                <DialogTitle sx={{ display: "inline-block", margin: "auto" }}>
+                    <AutoAwesome />{isForgotUsernameAndPassword ? "Account Recovery" : "Register"}<AutoAwesome />
+                </DialogTitle>
                 <DialogContent>
-                    <FormControl variant="standard">
-                        <TextField sx={{ width: "100%", marginTop: 1 }} label="Username" variant="outlined"
-                            onChange={(e) => handleUserChange(e)}
-                            onKeyDown={_handleKeyDown}
-                        />
-                        <TextField sx={{ width: "100%", marginTop: 1 }} label="Password" variant="outlined"
-                            onChange={(e) => handlePasswordChange(e)}
-                            onKeyDown={_handleKeyDown}
-                            type="password"
-                        />
+                    <FormControl variant="standard" fullWidth>
+                        {!isForgotUsernameAndPassword ?
+                            <>
+                                <TextField sx={{ width: "100%", marginTop: 1 }} label="Username" variant="outlined"
+                                    onChange={(e) => handleUserChange(e)}
+                                    onKeyDown={_handleKeyDown}
+                                />
+                                <TextField sx={{ width: "100%", marginTop: 1 }} label="Password" variant="outlined"
+                                    onChange={(e) => handlePasswordChange(e)}
+                                    onKeyDown={_handleKeyDown}
+                                    type="password"
+                                />
+                            </>
+                            : null
+                        }
                         <TextField sx={{ width: "100%", marginTop: 1 }} label="Email" variant="outlined"
                             onChange={(e) => handleEmailChange(e)}
                             onKeyDown={_handleKeyDown}
                             type="email"
                         />
-                        <Button sx={{ width: "100%", marginTop: 1 }} type="button" color="primary" variant="contained" onClick={() => register(username, password, email)}>
+                        <Button sx={{ width: "100%", marginTop: 1 }} type="button" color="primary" variant="contained"
+                            onClick={() => isForgotUsernameAndPassword ? forgotUsernameAndPassword(email) : register(username, password, email)}>
                             Submit
                         </Button>
                         <Alert sx={{ marginTop: 1 }} severity={resStatus}>{resMessage}</Alert>
-                        <Typography className="pointer" sx={{ display: "block", margin: "auto", fontSize: "1rem", color: "#1976d2", width: "9rem" }}>Forgot Password?</Typography>
                         {isLoading ? <CircularProgress sx={{ marginTop: 1, margin: "auto", padding: "1rem", display: "block" }} /> : null}
                     </FormControl>
                 </DialogContent>
             </Dialog>
-            <Button sx={{ width: "20rem", marginTop: 1, backgroundColor: "#1976d2" }} type="button" color="primary" variant="contained" onClick={toggleDialog}>
+            <Button sx={{ width: "20rem", marginTop: 1, backgroundColor: "#1976d2" }} type="button" color="primary" variant="contained" onClick={openDialog}>
                 Register
             </Button>
+            <Typography className="pointer" sx={{ display: "block", margin: "auto", marginTop: 4, fontSize: "1rem", color: "#1976d2", width: "15rem" }}
+                onClick={handleForgotUsernameAndPassword}
+            >
+                Forgot Username or Password?
+            </Typography>
         </>
     )
 }

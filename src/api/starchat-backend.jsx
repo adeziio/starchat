@@ -97,6 +97,31 @@ export const fetchUser = async () => {
     }
 }
 
+export const fetchForgotUsernameAndPassword = async (email) => {
+    try {
+        const res = await fetch("/forgotUsernameAndPassword", {
+            "method": "POST",
+            "credentials": "include",
+            "headers": {
+                'Content-Type': 'application/json',
+                'x-csrf-token': Cookies.get("csrf_access_token")
+            },
+            "body": JSON.stringify({
+                "email": email
+            })
+        })
+        if (res.status === 200) {
+            return await res.json();
+        }
+        else {
+            return false;
+        }
+    }
+    catch (err) {
+        return false;
+    }
+}
+
 export const fetchViewAllRoom = async () => {
     try {
         const res = await fetch("/api/viewAllRoom", {
