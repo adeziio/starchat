@@ -1,10 +1,8 @@
 import Cookies from 'js-cookie';
-// const host = process.env.REACT_APP_BACKEND_HOST;
-const host = process.env.REACT_APP_ENV === "local" ? process.env.REACT_APP_BACKEND_HOST : "";
 
 export const fetchRegisterUser = async (username, password, email) => {
     try {
-        const res = await fetch(host + "/registerUser", {
+        const res = await fetch("/registerUser", {
             "method": "POST",
             "credentials": "include",
             "headers": {
@@ -31,7 +29,7 @@ export const fetchRegisterUser = async (username, password, email) => {
 
 export const fetchLogin = async (username, password) => {
     try {
-        const res = await fetch(host + "/login", {
+        const res = await fetch("/login", {
             "method": "POST",
             "credentials": "include",
             "headers": {
@@ -57,7 +55,7 @@ export const fetchLogin = async (username, password) => {
 
 export const fetchLogout = async () => {
     try {
-        const res = await fetch(host + "/logout", {
+        const res = await fetch("/logout", {
             "method": "GET",
             "credentials": "include",
             "headers": {
@@ -79,7 +77,7 @@ export const fetchLogout = async () => {
 
 export const fetchUser = async () => {
     try {
-        const res = await fetch(host + "/api/user", {
+        const res = await fetch("/api/user", {
             "method": "GET",
             "credentials": "include",
             "headers": {
@@ -101,7 +99,7 @@ export const fetchUser = async () => {
 
 export const fetchViewAllRoom = async () => {
     try {
-        const res = await fetch(host + "/api/viewAllRoom", {
+        const res = await fetch("/api/viewAllRoom", {
             "method": "GET",
             "credentials": "include",
             "headers": {
@@ -124,7 +122,7 @@ export const fetchViewAllRoom = async () => {
 
 export const fetchViewMessage = async (roomname) => {
     try {
-        const res = await fetch(host + "/api/viewAllRoom", {
+        const res = await fetch("/api/viewAllRoom", {
             "method": "POST",
             "credentials": "include",
             "headers": {
@@ -149,7 +147,7 @@ export const fetchViewMessage = async (roomname) => {
 
 export const fetchAddRoom = async (roomname) => {
     try {
-        const res = await fetch(host + "/api/addRoom", {
+        const res = await fetch("/api/addRoom", {
             "method": "POST",
             "credentials": "include",
             "headers": {
