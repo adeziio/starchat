@@ -13,7 +13,7 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
-          <Route path="/" element={<Main />} />
+          <Route path="/" element={<Main page="Chat Room" />} />
           <Route path="*" element={<Navigate replace to="/" />} />
         </Routes>
       </Router>

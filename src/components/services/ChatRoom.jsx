@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Alert, TextField, CircularProgress, Grid, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Pagination } from '@mui/material';
-import { fetchViewAllRoom, fetchAddRoom } from './../../api/starchat-backend';
+import { fetchViewRooms, fetchAddRoom } from './../../api/starchat-backend';
 
 const ChatRoom = () => {
     const [data, setData] = useState([]);
@@ -13,12 +13,14 @@ const ChatRoom = () => {
     const [input, setInput] = useState("");
     const pageSize = 5;
 
+    const [roomName, setRoomName] = useState("");
+
     useEffect(() => {
         const fetchData = async () => {
             setResStatus("");
             setResMessage("");
             setIsLoading(true);
-            const response = await fetchViewAllRoom();
+            const response = await fetchViewRooms();
             if (response) {
                 setData(response.data);
                 setDataSize(response.size);
@@ -38,11 +40,11 @@ const ChatRoom = () => {
         fetchData();
     }, [])
 
-    const viewAllRoom = async () => {
+    const viewRooms = async () => {
         setResStatus("");
         setResMessage("");
         setIsLoading(true);
-        const response = await fetchViewAllRoom();
+        const response = await fetchViewRooms();
         if (response) {
             setData(response.data);
             setDataSize(response.size);
@@ -68,7 +70,7 @@ const ChatRoom = () => {
         if (response) {
             setResStatus("");
             setResMessage("");
-            viewAllRoom();
+            viewRooms();
         }
         else {
             setResStatus("error");
@@ -97,67 +99,76 @@ const ChatRoom = () => {
         }
     }
 
+    console.log("selected: " + roomName)
     return (
         <>
-            <Grid spacing={1} columns={16} m={1}>
-                <Grid item xs={12} display="inline-block">
-                    <TextField
-                        sx={{ marginTop: "-1rem", maxWidth: "11rem", marginLeft: "0.5rem", marginRight: "0.5rem" }}
-                        label="Room Name"
-                        variant="outlined"
-                        onChange={handleInputChange}
-                        onKeyDown={handleKeyDown}
+            {roomName === "" ?
+                <>
+                    <Grid spacing={1} columns={16} m={1}>
+                        <Grid item xs={12} display="inline-block">
+                            <TextField
+                                sx={{ marginTop: "-1rem", maxWidth: "11rem", marginLeft: "0.5rem", marginRight: "0.5rem" }}
+                                label="Room Name"
+                                variant="outlined"
+                                onChange={handleInputChange}
+                                onKeyDown={handleKeyDown}
+                            />
+                        </Grid>
+                        <Grid item xs={4} display="inline-block">
+                            <Button
+                                variant="contained"
+                                component="label"
+                                sx={{ height: "3.5rem" }}
+                                onClick={handleSubmit}
+                            >
+                                Create New Room
+                            </Button>
+                        </Grid>
+                    </Grid>
+                    {resStatus === "error" ? <Alert sx={{ marginTop: 1 }} severity={resStatus}>{resMessage}</Alert> : null}
+                    {isLoading ? <CircularProgress sx={{ display: "block", marginTop: 1, margin: "auto", padding: "1rem" }} /> : null}
+                    <Pagination
+                        rowsperpage={pageSize} count={Math.ceil(dataSize / pageSize)} size="large" color="primary"
+                        sx={{ display: "inline-block", margin: "auto", marginTop: 5 }}
+                        showFirstButton showLastButton
+                        page={page} onChange={handlePageChange}
                     />
-                </Grid>
-                <Grid item xs={4} display="inline-block">
-                    <Button
-                        variant="contained"
-                        component="label"
-                        sx={{ height: "3.5rem" }}
-                        onClick={handleSubmit}
-                    >
-                        Create New Room
-                    </Button>
-                </Grid>
-            </Grid>
-            {resStatus === "error" ? <Alert sx={{ marginTop: 1 }} severity={resStatus}>{resMessage}</Alert> : null}
-            {isLoading ? <CircularProgress sx={{ display: "block", marginTop: 1, margin: "auto", padding: "1rem" }} /> : null}
-            <Pagination
-                rowsperpage={pageSize} count={Math.ceil(dataSize / pageSize)} size="large" color="primary"
-                sx={{ display: "inline-block", margin: "auto", marginTop: 5 }}
-                showFirstButton showLastButton
-                page={page} onChange={handlePageChange}
-            />
-            <TableContainer component={Paper}>
-                <Table aria-label="simple-table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell align="right" width="40%">Create Date</TableCell>
-                            <TableCell align="center" width="10%">Room Name</TableCell>
-                            <TableCell align="left" width="40%">Created By</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {pageData.length > 0 ?
-                            pageData.map((row, index) => {
-                                return (
-                                    <TableRow
-                                        key={`chat-${row.create_date}-${row.room_name}-${index}`}
-                                        hover
-                                        className='pointer'
-                                    >
-                                        <TableCell align="right">{row.create_date.split(" ")[0]}</TableCell>
-                                        <TableCell align="center">{row.room_name}</TableCell>
-                                        <TableCell align="left">{row.created_by}</TableCell>
-                                    </TableRow>
-                                )
-                            })
-                            : null
-                        }
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                    <TableContainer component={Paper}>
+                        <Table aria-label="simple-table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell align="right" width="15%">Create Date</TableCell>
+                                    <TableCell align="center" width="50%">Room</TableCell>
+                                    <TableCell align="left" width="15%">Created By</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {pageData.length > 0 ?
+                                    pageData.map((row, index) => {
+                                        return (
+                                            <TableRow
+                                                key={`chat-${row.create_date}-${row.room_name}-${index}`}
+                                                hover
+                                                className='pointer'
+                                                onClick={() => setRoomName(row.room_name)}
+                                            >
+                                                <TableCell align="right">{row.create_date.split(" ")[0]}</TableCell>
+                                                <TableCell align="center">{row.room_name}</TableCell>
+                                                <TableCell align="left">{row.created_by}</TableCell>
+                                            </TableRow>
+                                        )
+                                    })
+                                    : null
+                                }
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </>
+                :
+                <>
 
+                </>
+            }
         </>
     )
 }

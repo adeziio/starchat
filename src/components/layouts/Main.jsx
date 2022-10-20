@@ -5,9 +5,9 @@ import ChatRoom from './../services/ChatRoom';
 import Login from '../services/Login';
 import { fetchUser } from './../../api/starchat-backend';
 
-const Main = () => {
+const Main = (props) => {
     const [username, setUserName] = useState("");
-    const [page, setPage] = useState("Chat Room");
+    const [page, setPage] = useState(props.page);
 
     useEffect(() => {
         const fetchData = async () => {
