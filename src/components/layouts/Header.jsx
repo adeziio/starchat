@@ -104,7 +104,7 @@ const Header = (props) => {
                             noWrap
                             component="div"
                             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
-                            onClick={() => props.setPage(defaultPage)}
+                            onClick={() => setPage(defaultPage)}
                         >
                             <AutoAwesome />
                             <Typography sx={{ fontFamily: "cursive", fontSize: "3rem" }}>Star Chat</Typography>
@@ -122,7 +122,7 @@ const Header = (props) => {
                             ))}
                         </Box>
                         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, marginRight: "5rem" }}>
-                            <Typography onClick={() => props.setPage(defaultPage)} sx={{ m: 1, cursor: "pointer" }}>
+                            <Typography onClick={() => setPage(defaultPage)} sx={{ m: 1, cursor: "pointer" }}>
                                 <AutoAwesome />
                                 <Typography sx={{ fontFamily: "cursive", fontSize: "3rem", display: "inline-block" }}> Star Chat </Typography>
                                 <AutoAwesome />

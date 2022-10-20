@@ -11,7 +11,7 @@ const ChatRoom = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState(1);
     const [input, setInput] = useState("");
-    const pageSize = 10;
+    const pageSize = 5;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -85,7 +85,8 @@ const ChatRoom = () => {
         addRoom();
     }
 
-    const handlePageChange = (value) => {
+    const handlePageChange = (e, value) => {
+        e.preventDefault();
         setPage(value);
         setPageData(data.slice((value - 1) * pageSize, ((value - 1) * pageSize) + pageSize));
     }
