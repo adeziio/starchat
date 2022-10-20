@@ -48,6 +48,10 @@ const Login = (props) => {
             setPassword("");
             setIsLoading(false);
         }
+        else {
+            setResStatus("error");
+            setResMessage("Missing username or password");
+        }
     }
 
     return (
