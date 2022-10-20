@@ -80,6 +80,10 @@ const Register = () => {
                 setResMessage("Please enter a valid email address");
             }
         }
+        else {
+            setResStatus("error");
+            setResMessage("Missing username or password");
+        }
     }
 
     const forgotUsernameAndPassword = async (email) => {
