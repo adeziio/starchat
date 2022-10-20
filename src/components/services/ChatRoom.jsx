@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Alert, TextField, CircularProgress, Grid, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Pagination } from '@mui/material';
+import {
+    Button, Alert, TextField, CircularProgress, Grid, TableContainer,
+    Paper, Table, TableHead, TableRow, TableCell, TableBody, Pagination, Typography
+} from '@mui/material';
+import { ArrowBack } from '@mui/icons-material';
 import { fetchViewRooms, fetchAddRoom } from './../../api/starchat-backend';
 
 const ChatRoom = () => {
@@ -99,7 +103,6 @@ const ChatRoom = () => {
         }
     }
 
-    console.log("selected: " + roomName)
     return (
         <>
             {roomName === "" ?
@@ -166,7 +169,19 @@ const ChatRoom = () => {
                 </>
                 :
                 <>
+                    <Grid container spacing={1} m={1}>
+                        <Grid item xs={4} sx={{ border: '1px dashed grey' }}>
+                            <Typography className="pointer" sx={{ float: "right" }} onClick={() => setRoomName("")} >
+                                <ArrowBack sx={{ fontSize: "2rem" }} />
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={4} sx={{ border: '1px dashed grey' }}>
+                            {roomName}
+                        </Grid>
+                        <Grid item xs={4} sx={{ border: '1px dashed grey' }}>
 
+                        </Grid>
+                    </Grid>
                 </>
             }
         </>
