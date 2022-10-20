@@ -10,15 +10,21 @@
     margin-top: 2rem;
 }
 
+body {
+    background-image: url(./../img/bg.jpg);
+    background-size: cover;
+}
+
 .content-container {
     margin-top: 6rem;
+    margin-bottom: 0rem;
     background-color: white;
     display: inline-block;
     width: 100%;
 }
 
 .footer-container {
-    margin: 1rem;
+    margin: 0rem;
 }
 
 .bold {

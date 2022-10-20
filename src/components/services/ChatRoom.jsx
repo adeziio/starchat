@@ -98,7 +98,7 @@ const ChatRoom = () => {
 
     return (
         <>
-            <Grid spacing={1} columns={16} >
+            <Grid spacing={1} columns={16} m={1}>
                 <Grid item xs={12} display="inline-block">
                     <TextField
                         sx={{ marginTop: "-1rem", maxWidth: "11rem", marginLeft: "0.5rem", marginRight: "0.5rem" }}
@@ -131,9 +131,9 @@ const ChatRoom = () => {
                 <Table aria-label="simple-table">
                     <TableHead>
                         <TableRow>
-                            <TableCell align="left">Create Date</TableCell>
-                            <TableCell align="left">Room Name</TableCell>
-                            <TableCell align="left">Created By</TableCell>
+                            <TableCell align="right" width="40%">Create Date</TableCell>
+                            <TableCell align="center" width="10%">Room Name</TableCell>
+                            <TableCell align="left" width="40%">Created By</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -143,9 +143,10 @@ const ChatRoom = () => {
                                     <TableRow
                                         key={`chat-${row.create_date}-${row.room_name}-${index}`}
                                         hover
+                                        className='pointer'
                                     >
-                                        <TableCell align="left">{row.create_date.split(" ")[0]}</TableCell>
-                                        <TableCell align="left">{row.room_name}</TableCell>
+                                        <TableCell align="right">{row.create_date.split(" ")[0]}</TableCell>
+                                        <TableCell align="center">{row.room_name}</TableCell>
                                         <TableCell align="left">{row.created_by}</TableCell>
                                     </TableRow>
                                 )
