@@ -26,7 +26,7 @@ const Login = (props) => {
         }
     }
 
-    const login = async (username, password, email) => {
+    const login = async (username, password) => {
         if (username !== "" && password !== "") {
             setResStatus("");
             setResMessage("");
@@ -59,15 +59,18 @@ const Login = (props) => {
             <KawaiiAnimation />
             <FormControl variant="standard">
                 <TextField sx={{ width: "20rem", marginTop: 1 }} label="Username" variant="outlined"
+                    value={username}
                     onChange={(e) => handleUserChange(e)}
                     onKeyDown={_handleKeyDown}
                 />
                 <TextField sx={{ width: "20rem", marginTop: 1 }} label="Password" variant="outlined"
+                    value={password}
                     onChange={(e) => handlePasswordChange(e)}
                     onKeyDown={_handleKeyDown}
                     type="password"
                 />
-                <Button sx={{ width: "20rem", marginTop: 1 }} type="button" color="primary" variant="contained" onClick={() => login(username, password)}>
+                <Button sx={{ width: "20rem", marginTop: 1 }} type="button" color="primary" variant="contained"
+                    onClick={(e) => login(username, password)}>
                     Log In
                 </Button>
                 <Register />

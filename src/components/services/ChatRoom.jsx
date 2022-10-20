@@ -133,6 +133,7 @@ const ChatRoom = () => {
                         <TableRow>
                             <TableCell align="left">Create Date</TableCell>
                             <TableCell align="left">Room Name</TableCell>
+                            <TableCell align="left">Created By</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -145,6 +146,7 @@ const ChatRoom = () => {
                                     >
                                         <TableCell align="left">{row.create_date.split(" ")[0]}</TableCell>
                                         <TableCell align="left">{row.room_name}</TableCell>
+                                        <TableCell align="left">{row.created_by}</TableCell>
                                     </TableRow>
                                 )
                             })

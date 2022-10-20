@@ -73,6 +73,9 @@ const Register = () => {
                     setResStatus("error");
                     setResMessage("Service Unavailable");
                 }
+                setUserName("");
+                setPassword("");
+                setEmail("");
                 setIsLoading(false);
             }
             else {
@@ -100,6 +103,7 @@ const Register = () => {
                 setResStatus("error");
                 setResMessage("Service Unavailable");
             }
+            setEmail("");
             setIsLoading(false);
         }
         else {
@@ -119,10 +123,12 @@ const Register = () => {
                         {!isForgotUsernameAndPassword ?
                             <>
                                 <TextField sx={{ width: "100%", marginTop: 1 }} label="Username" variant="outlined"
+                                    value={username}
                                     onChange={(e) => handleUserChange(e)}
                                     onKeyDown={_handleKeyDown}
                                 />
                                 <TextField sx={{ width: "100%", marginTop: 1 }} label="Password" variant="outlined"
+                                    value={password}
                                     onChange={(e) => handlePasswordChange(e)}
                                     onKeyDown={_handleKeyDown}
                                     type="password"
@@ -131,6 +137,7 @@ const Register = () => {
                             : null
                         }
                         <TextField sx={{ width: "100%", marginTop: 1 }} label="Email" variant="outlined"
+                            value={email}
                             onChange={(e) => handleEmailChange(e)}
                             onKeyDown={_handleKeyDown}
                             type="email"
@@ -144,7 +151,8 @@ const Register = () => {
                     </FormControl>
                 </DialogContent>
             </Dialog>
-            <Button sx={{ width: "20rem", marginTop: 1, backgroundColor: "#1976d2" }} type="button" color="primary" variant="contained" onClick={openDialog}>
+            <Button sx={{ width: "20rem", marginTop: 1, backgroundColor: "#1976d2" }} type="button" color="primary" variant="contained"
+                onClick={openDialog}>
                 Register
             </Button>
             <Typography className="pointer" sx={{ display: "block", margin: "auto", marginTop: 4, fontSize: "1rem", color: "#1976d2", width: "15rem" }}
