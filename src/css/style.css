@@ -18,6 +18,8 @@ body {
 .content-container {
     margin-top: 6rem;
     margin-bottom: 0rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
     background-color: white;
     display: inline-block;
     width: 100%;

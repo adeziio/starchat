@@ -9,6 +9,7 @@ import Message from './Message';
 
 const ChatRoom = (props) => {
     const { username } = props;
+    const [roomname, setRoomName] = useState("");
     const [roomData, setRoomData] = useState([]);
     const [roomDataSize, setRoomDataSize] = useState(0);
     const [roomDataPerPage, setRoomDataPerPage] = useState([]);
@@ -19,8 +20,6 @@ const ChatRoom = (props) => {
     const [page, setPage] = useState(1);
     const [input, setInput] = useState("");
     const pageSize = 5;
-
-    const [roomname, setRoomName] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -207,13 +206,13 @@ const ChatRoom = (props) => {
                 </>
                 :
                 <>
-                    <Grid container spacing={1} m={1}>
-                        <Grid item xs={2}>
+                    <Grid container>
+                        <Grid item xs={1}>
                             <Typography className="pointer" sx={{ float: "right" }} onClick={handleBackSelect}>
                                 <ArrowBack sx={{ fontSize: "2rem" }} />
                             </Typography>
                         </Grid>
-                        <Grid item xs={8}>
+                        <Grid item xs={9}>
                             <Typography sx={{ display: "block" }}>{roomname}</Typography>
                             <Typography sx={{ height: "25rem" }}>
                                 {messageData.length > 0 ?
@@ -241,7 +240,7 @@ const ChatRoom = (props) => {
                                 onKeyDown={handleKeyDown}
                             />
                         </Grid>
-                        <Grid item xs={2} sx={{ position: "relative" }}>
+                        <Grid item xs={1} sx={{ position: "relative" }}>
                             <ArrowCircleRight
                                 className='pointer'
                                 sx={{ color: "#1976d2", fontSize: "4rem", position: "absolute", left: 0, bottom: 0 }}
