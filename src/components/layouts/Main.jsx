@@ -39,7 +39,7 @@ const Main = (props) => {
             </div>
 
             <div className='footer-container'>
-                <Footer />
+                {username === "" ? <Footer /> : null}
             </div>
         </>
     )

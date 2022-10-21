@@ -19,7 +19,7 @@ const ChatRoom = (props) => {
     const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState(1);
     const [input, setInput] = useState("");
-    const pageSize = 5;
+    const pageSize = 4;
     const ref = useRef(null);
 
     useEffect(() => {
@@ -208,13 +208,13 @@ const ChatRoom = (props) => {
                 </>
                 :
                 <>
-                    <Grid container>
-                        <Grid item xs={1}>
+                    <Grid container sx={{ height: "100%" }}>
+                        <Grid item xs={2}>
                             <Typography className="pointer" sx={{ float: "right" }} onClick={handleBackSelect}>
                                 <ArrowBack sx={{ fontSize: "2rem" }} />
                             </Typography>
                         </Grid>
-                        <Grid item xs={9}>
+                        <Grid item xs={8}>
                             <Typography sx={{ display: "block" }}>{roomname}</Typography>
                             <Typography sx={{ height: "25rem", overflow: "auto" }} ref={ref}>
                                 {messageData.length > 0 ?
@@ -232,7 +232,6 @@ const ChatRoom = (props) => {
                                     : null
                                 }
                             </Typography>
-
                             <TextField
                                 fullWidth
                                 value={input}
@@ -243,7 +242,7 @@ const ChatRoom = (props) => {
                                 onKeyDown={handleKeyDown}
                             />
                         </Grid>
-                        <Grid item xs={1} sx={{ position: "relative" }}>
+                        <Grid item xs={2} sx={{ position: "relative" }}>
                             <ArrowCircleRight
                                 className='pointer'
                                 sx={{ color: "#1976d2", fontSize: "4rem", position: "absolute", left: 0, bottom: 0 }}
