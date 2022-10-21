@@ -47,7 +47,12 @@ const Register = () => {
 
     const _handleKeyDown = (e) => {
         if (e.key === "Enter") {
-            register(username, password, email);
+            if (isForgotUsernameAndPassword) {
+                forgotUsernameAndPassword(email);
+            }
+            else {
+                register(username, password, email);
+            }
         }
     }
 
@@ -64,7 +69,7 @@ const Register = () => {
                 setResStatus("");
                 setResMessage("");
                 setIsLoading(true);
-                const response = await fetchRegisterUser(username, password, email);
+                const response = await fetchRegisterUser(new Date(), username, password, email);
                 if (response) {
                     setResStatus(response.status);
                     setResMessage(response.message);
