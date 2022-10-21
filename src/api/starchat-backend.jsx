@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 
-export const fetchRegisterUser = async (username, password, email) => {
+export const fetchRegisterUser = async (create_date, username, password, email) => {
     try {
         const res = await fetch("/registerUser", {
             "method": "POST",
@@ -10,6 +10,7 @@ export const fetchRegisterUser = async (username, password, email) => {
                 'x-csrf-token': Cookies.get("csrf_access_token")
             },
             "body": JSON.stringify({
+                "create_date": create_date,
                 "username": username,
                 "password": password,
                 "email": email
