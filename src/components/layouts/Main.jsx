@@ -32,7 +32,7 @@ const Main = (props) => {
 
             <div className='content-container'>
                 {username !== "" ?
-                    page === "Chat Room" ? <ChatRoom />
+                    page === "Chat Room" ? <ChatRoom username={username} />
                         : null
                     : <Login setUserName={setUserName} />
                 }

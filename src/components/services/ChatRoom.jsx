@@ -3,13 +3,16 @@ import {
     Button, Alert, TextField, CircularProgress, Grid, TableContainer,
     Paper, Table, TableHead, TableRow, TableCell, TableBody, Pagination, Typography
 } from '@mui/material';
-import { ArrowBack } from '@mui/icons-material';
-import { fetchViewRooms, fetchAddRoom } from './../../api/starchat-backend';
+import { ArrowBack, ArrowCircleRight } from '@mui/icons-material';
+import { fetchViewRooms, fetchAddRoom, fetchViewMessages, fetchAddMessage } from './../../api/starchat-backend';
+import Message from './Message';
 
-const ChatRoom = () => {
-    const [data, setData] = useState([]);
-    const [dataSize, setDataSize] = useState(0);
-    const [pageData, setPageData] = useState([]);
+const ChatRoom = (props) => {
+    const { username } = props;
+    const [roomData, setRoomData] = useState([]);
+    const [roomDataSize, setRoomDataSize] = useState(0);
+    const [roomDataPerPage, setRoomDataPerPage] = useState([]);
+    const [messageData, setMessageData] = useState([]);
     const [resStatus, setResStatus] = useState("");
     const [resMessage, setResMessage] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -17,53 +20,37 @@ const ChatRoom = () => {
     const [input, setInput] = useState("");
     const pageSize = 5;
 
-    const [roomName, setRoomName] = useState("");
+    const [roomname, setRoomName] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
-            setResStatus("");
-            setResMessage("");
-            setIsLoading(true);
             const response = await fetchViewRooms();
             if (response) {
-                setData(response.data);
-                setDataSize(response.size);
-                setPageData(response.data.slice(0, pageSize));
-                setResStatus("");
-                setResMessage(response.message);
+                setRoomData(response.data);
+                setRoomDataSize(response.size);
+                setRoomDataPerPage(response.data.slice(0, pageSize));
             }
             else {
-                setData([]);
-                setDataSize(0);
-                setPageData([]);
-                setResStatus("error");
-                setResMessage("Service Unavailable");
+                setRoomData([]);
+                setRoomDataSize(0);
+                setRoomDataPerPage([]);
             }
-            setIsLoading(false);
         }
         fetchData();
     }, [])
 
     const viewRooms = async () => {
-        setResStatus("");
-        setResMessage("");
-        setIsLoading(true);
         const response = await fetchViewRooms();
         if (response) {
-            setData(response.data);
-            setDataSize(response.size);
-            setPageData(response.data.slice(0, pageSize));
-            setResStatus("");
-            setResMessage(response.message);
+            setRoomData(response.data);
+            setRoomDataSize(response.size);
+            setRoomDataPerPage(response.data.slice(0, pageSize));
         }
         else {
-            setData([]);
-            setDataSize(0);
-            setPageData([]);
-            setResStatus("error");
-            setResMessage("Service Unavailable");
+            setRoomData([]);
+            setRoomDataSize(0);
+            setRoomDataPerPage([]);
         }
-        setIsLoading(false);
     }
 
     const addRoom = async () => {
@@ -72,14 +59,43 @@ const ChatRoom = () => {
         setIsLoading(true);
         const response = await fetchAddRoom(input);
         if (response) {
-            setResStatus("");
-            setResMessage("");
+            setResStatus(response.status);
+            setResMessage(response.message);
             viewRooms();
         }
         else {
             setResStatus("error");
             setResMessage("Service Unavailable");
         }
+        setInput("");
+        setIsLoading(false);
+    }
+
+    const viewMessages = async (roomname) => {
+        const response = await fetchViewMessages(roomname);
+        if (response) {
+            setMessageData(response.data);
+        }
+        else {
+            setMessageData([]);
+        }
+    }
+
+    const addMessage = async () => {
+        setResStatus("");
+        setResMessage("");
+        setIsLoading(true);
+        const response = await fetchAddMessage(roomname, input);
+        if (response) {
+            setResStatus("");
+            setResMessage("");
+            viewMessages(roomname);
+        }
+        else {
+            setResStatus("error");
+            setResMessage("Service Unavailable");
+        }
+        setInput("");
         setIsLoading(false);
     }
 
@@ -88,13 +104,18 @@ const ChatRoom = () => {
     }
 
     const handleSubmit = () => {
-        addRoom();
+        if (roomname === "") {
+            addRoom();
+        }
+        else {
+            addMessage();
+        }
     }
 
     const handlePageChange = (e, value) => {
         e.preventDefault();
         setPage(value);
-        setPageData(data.slice((value - 1) * pageSize, ((value - 1) * pageSize) + pageSize));
+        setRoomDataPerPage(roomData.slice((value - 1) * pageSize, ((value - 1) * pageSize) + pageSize));
     }
 
     const handleKeyDown = (e) => {
@@ -103,13 +124,30 @@ const ChatRoom = () => {
         }
     }
 
+    const handleRoomSelect = (roomname) => {
+        setRoomName(roomname);
+        viewMessages(roomname);
+        setInput("");
+        setResStatus("");
+        setResMessage("");
+    }
+
+    const handleBackSelect = () => {
+        setRoomName("");
+        viewRooms();
+        setInput("");
+        setResStatus("");
+        setResMessage("");
+    }
+
     return (
         <>
-            {roomName === "" ?
+            {roomname === "" ?
                 <>
                     <Grid spacing={1} columns={16} m={1}>
                         <Grid item xs={12} display="inline-block">
                             <TextField
+                                value={input}
                                 sx={{ marginTop: "-1rem", maxWidth: "11rem", marginLeft: "0.5rem", marginRight: "0.5rem" }}
                                 label="Room Name"
                                 variant="outlined"
@@ -131,7 +169,7 @@ const ChatRoom = () => {
                     {resStatus === "error" ? <Alert sx={{ marginTop: 1 }} severity={resStatus}>{resMessage}</Alert> : null}
                     {isLoading ? <CircularProgress sx={{ display: "block", marginTop: 1, margin: "auto", padding: "1rem" }} /> : null}
                     <Pagination
-                        rowsperpage={pageSize} count={Math.ceil(dataSize / pageSize)} size="large" color="primary"
+                        rowsperpage={pageSize} count={Math.ceil(roomDataSize / pageSize)} size="large" color="primary"
                         sx={{ display: "inline-block", margin: "auto", marginTop: 5 }}
                         showFirstButton showLastButton
                         page={page} onChange={handlePageChange}
@@ -145,15 +183,15 @@ const ChatRoom = () => {
                                     <TableCell align="left" width="15%">Created By</TableCell>
                                 </TableRow>
                             </TableHead>
-                            <TableBody>
-                                {pageData.length > 0 ?
-                                    pageData.map((row, index) => {
+                            <TableBody >
+                                {roomDataPerPage.length > 0 ?
+                                    roomDataPerPage.map((row, index) => {
                                         return (
                                             <TableRow
                                                 key={`chat-${row.create_date}-${row.room_name}-${index}`}
                                                 hover
                                                 className='pointer'
-                                                onClick={() => setRoomName(row.room_name)}
+                                                onClick={() => handleRoomSelect(row.room_name)}
                                             >
                                                 <TableCell align="right">{row.create_date.split(" ")[0]}</TableCell>
                                                 <TableCell align="center">{row.room_name}</TableCell>
@@ -170,18 +208,48 @@ const ChatRoom = () => {
                 :
                 <>
                     <Grid container spacing={1} m={1}>
-                        <Grid item xs={4} sx={{ border: '1px dashed grey' }}>
-                            <Typography className="pointer" sx={{ float: "right" }} onClick={() => setRoomName("")} >
+                        <Grid item xs={2}>
+                            <Typography className="pointer" sx={{ float: "right" }} onClick={handleBackSelect}>
                                 <ArrowBack sx={{ fontSize: "2rem" }} />
                             </Typography>
                         </Grid>
-                        <Grid item xs={4} sx={{ border: '1px dashed grey' }}>
-                            {roomName}
-                        </Grid>
-                        <Grid item xs={4} sx={{ border: '1px dashed grey' }}>
+                        <Grid item xs={8}>
+                            <Typography sx={{ display: "block" }}>{roomname}</Typography>
+                            <Typography sx={{ height: "25rem" }}>
+                                {messageData.length > 0 ?
+                                    messageData.map((row, index) => {
+                                        return (
+                                            <Message
+                                                key={`${row.user_name}-${index}`}
+                                                position={row.user_name === username ? "right" : "left"}
+                                                username={row.user_name}
+                                                message={row.message}
+                                            />
+                                        )
+                                    })
+                                    : null
+                                }
+                            </Typography>
 
+                            <TextField
+                                fullWidth
+                                value={input}
+                                sx={{ display: "inline-block", marginTop: "1rem" }}
+                                label="Message"
+                                variant="outlined"
+                                onChange={handleInputChange}
+                                onKeyDown={handleKeyDown}
+                            />
+                        </Grid>
+                        <Grid item xs={2} sx={{ position: "relative" }}>
+                            <ArrowCircleRight
+                                className='pointer'
+                                sx={{ color: "#1976d2", fontSize: "4rem", position: "absolute", left: 0, bottom: 0 }}
+                                onClick={handleSubmit}
+                            />
                         </Grid>
                     </Grid>
+
                 </>
             }
         </>
