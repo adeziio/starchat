@@ -101,6 +101,7 @@ const ChatRoom = (props) => {
         }
         setInput("");
         setIsLoading(false);
+        ref.current.scrollTop = ref.current.scrollHeight;
     }
 
     const handleInputChange = (e) => {
