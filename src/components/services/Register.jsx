@@ -69,7 +69,7 @@ const Register = () => {
                 setResStatus("");
                 setResMessage("");
                 setIsLoading(true);
-                const response = await fetchRegisterUser(new Date(), username, password, email);
+                const response = await fetchRegisterUser(username, password, email);
                 if (response) {
                     setResStatus(response.status);
                     setResMessage(response.message);
