@@ -8,8 +8,8 @@ const Message = (props) => {
         const now = new Date(date);
         const ampm = now.getHours() >= 12 ? 'pm' : 'am';
         const hours = now.getHours() % 12 ? now.getHours() % 12 : 12;
-        const minutes = now.getMinutes() < 10 ? '0' + now.getMinutes() : now.getMinutes();;
-        return `${hours}:${minutes} ${ampm}`
+        const minutes = now.getMinutes() < 10 ? '0' + now.getMinutes() : now.getMinutes();
+        return `${hours}:${minutes} ${ampm}`;
     }
 
     return (
