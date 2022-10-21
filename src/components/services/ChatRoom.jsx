@@ -82,7 +82,6 @@ const ChatRoom = (props) => {
         else {
             setMessageData([]);
         }
-        ref.current.scrollTop = ref.current.scrollHeight;
     }
 
     const addMessage = async () => {
@@ -135,6 +134,7 @@ const ChatRoom = (props) => {
         setInput("");
         setResStatus("");
         setResMessage("");
+        ref.current.scrollTop = ref.current.scrollHeight;
     }
 
     const handleBackSelect = () => {
