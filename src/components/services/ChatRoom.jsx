@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
     Button, Alert, TextField, CircularProgress, Grid, TableContainer,
     Paper, Table, TableHead, TableRow, TableCell, TableBody, Pagination, Typography
@@ -20,6 +20,7 @@ const ChatRoom = (props) => {
     const [page, setPage] = useState(1);
     const [input, setInput] = useState("");
     const pageSize = 5;
+    const ref = useRef(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -78,6 +79,7 @@ const ChatRoom = (props) => {
         else {
             setMessageData([]);
         }
+        ref.current.scrollTop = ref.current.scrollHeight;
     }
 
     const addMessage = async () => {
@@ -214,13 +216,14 @@ const ChatRoom = (props) => {
                         </Grid>
                         <Grid item xs={9}>
                             <Typography sx={{ display: "block" }}>{roomname}</Typography>
-                            <Typography sx={{ height: "25rem" }}>
+                            <Typography sx={{ height: "25rem", overflow: "auto" }} ref={ref}>
                                 {messageData.length > 0 ?
                                     messageData.map((row, index) => {
                                         return (
                                             <Message
                                                 key={`${row.user_name}-${index}`}
                                                 position={row.user_name === username ? "right" : "left"}
+                                                create_date={row.create_date}
                                                 username={row.user_name}
                                                 message={row.message}
                                             />
