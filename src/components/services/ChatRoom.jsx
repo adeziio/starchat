@@ -223,7 +223,6 @@ const ChatRoom = (props) => {
                                             <Message
                                                 key={`${row.user_name}-${index}`}
                                                 position={row.user_name === username ? "right" : "left"}
-                                                create_date={row.create_date}
                                                 username={row.user_name}
                                                 message={row.message}
                                             />
