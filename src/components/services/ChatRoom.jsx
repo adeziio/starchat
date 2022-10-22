@@ -38,7 +38,7 @@ const ChatRoom = (props) => {
         }
         fetchData();
 
-        const timer = setInterval(() => roomname !== "" ? viewMessages(roomname, () => ref.current.scrollTop = ref.current.scrollHeight) : null, 10000);
+        const timer = setInterval(() => roomname !== "" ? viewMessages(roomname) : null, 2000);
         return () => clearTimeout(timer)
     }, [roomname])
 
@@ -92,6 +92,7 @@ const ChatRoom = (props) => {
         if (response) {
             setResStatus("");
             setResMessage("");
+            handleBackSelect();
             viewMessages(roomname, () => ref.current.scrollTop = ref.current.scrollHeight);
         }
         else {
@@ -128,6 +129,7 @@ const ChatRoom = (props) => {
     }
 
     const handleRoomSelect = (roomname) => {
+        handleBackSelect();
         setRoomName(roomname);
         viewMessages(roomname, () => ref.current.scrollTop = ref.current.scrollHeight);
         setInput("");
