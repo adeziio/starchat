@@ -92,7 +92,6 @@ const ChatRoom = (props) => {
         if (response) {
             setResStatus("");
             setResMessage("");
-            handleBackSelect();
             viewMessages(roomname, () => ref.current.scrollTop = ref.current.scrollHeight);
         }
         else {
@@ -129,7 +128,6 @@ const ChatRoom = (props) => {
     }
 
     const handleRoomSelect = (roomname) => {
-        handleBackSelect();
         setRoomName(roomname);
         viewMessages(roomname, () => ref.current.scrollTop = ref.current.scrollHeight);
         setInput("");
