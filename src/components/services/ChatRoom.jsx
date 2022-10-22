@@ -38,7 +38,7 @@ const ChatRoom = (props) => {
         }
         fetchData();
 
-        const timer = setInterval(() => roomname !== "" ? viewMessages(roomname) : null, 2000);
+        const timer = setInterval(() => roomname !== "" ? viewMessages(roomname) : null, 5000);
         return () => clearTimeout(timer)
     }, [roomname])
 
