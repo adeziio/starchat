@@ -38,7 +38,7 @@ const ChatRoom = (props) => {
         }
         fetchData();
 
-        const timer = setInterval(() => roomname !== "" ? viewMessages(roomname) : null, 5000)
+        const timer = setInterval(() => roomname !== "" ? viewMessages(roomname, () => ref.current.scrollTop = ref.current.scrollHeight) : null, 10000);
         return () => clearTimeout(timer)
     }, [roomname])
 
@@ -74,10 +74,10 @@ const ChatRoom = (props) => {
         setIsLoading(false);
     }
 
-    const viewMessages = async (roomname) => {
+    const viewMessages = async (roomname, callback) => {
         const response = await fetchViewMessages(roomname);
         if (response) {
-            setMessageData(response.data);
+            setMessageData(response.data, callback());
         }
         else {
             setMessageData([]);
@@ -92,7 +92,7 @@ const ChatRoom = (props) => {
         if (response) {
             setResStatus("");
             setResMessage("");
-            viewMessages(roomname);
+            viewMessages(roomname, () => ref.current.scrollTop = ref.current.scrollHeight);
         }
         else {
             setResStatus("error");
@@ -100,7 +100,6 @@ const ChatRoom = (props) => {
         }
         setInput("");
         setIsLoading(false);
-        ref.current.scrollTop = ref.current.scrollHeight;
     }
 
     const handleInputChange = (e) => {
@@ -130,11 +129,10 @@ const ChatRoom = (props) => {
 
     const handleRoomSelect = (roomname) => {
         setRoomName(roomname);
-        viewMessages(roomname);
+        viewMessages(roomname, () => ref.current.scrollTop = ref.current.scrollHeight);
         setInput("");
         setResStatus("");
         setResMessage("");
-        ref.current.scrollTop = ref.current.scrollHeight;
     }
 
     const handleBackSelect = () => {
